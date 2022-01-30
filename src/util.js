@@ -5,19 +5,25 @@ import { Circle, Popup } from "react-leaflet";
 const casesTypeColors = {
   cases: {
     hex: "#CC1034",
-    multiplier: 800
+    rgb: "rgb(204, 16, 52)",
+    half_op: "rgba(204, 16, 52, 0.5)",
+    multiplier: 800,
   },
   recovered: {
     hex: "#7dd71d",
-    multiplier: 1200
+    rgb: "rgb(125, 215, 29)",
+    half_op: "rgba(125, 215, 29, 0.5)",
+    multiplier: 1200,
   },
   deaths: {
     hex: "#fb4443",
-    multiplier: 2000
-  }
+    rgb: "rgb(251, 68, 67)",
+    half_op: "rgba(251, 68, 67, 0.5)",
+    multiplier: 2000,
+  },
 };
 
-export const sortData = data => {
+export const sortData = (data) => {
   let sortedData = [...data];
   sortedData.sort((a, b) => {
     if (a.cases > b.cases) {
@@ -29,20 +35,18 @@ export const sortData = data => {
   return sortedData;
 };
 
-export const prettyPrintStat = stat =>
+export const prettyPrintStat = (stat) =>
   stat ? `+${numeral(stat).format("0.0a")}` : "+0";
 
 export const showDataOnMap = (data, casesType = "cases") =>
-  data.map(country => (
+  data.map((country) => (
     <Circle
       center={[country.countryInfo.lat, country.countryInfo.long]}
-      pathOptions={{
-        color: casesTypeColors[casesType].hex,
-        fillColor: casesTypeColors[casesType].hex
-      }}
+      color={casesTypeColors[casesType].hex}
+      fillColor={casesTypeColors[casesType].hex}
+      fillOpacity={0.4}
       radius={
-        Math.sqrt(country[casesType] / 10) *
-        casesTypeColors[casesType].multiplier
+        Math.sqrt(country[casesType]) * casesTypeColors[casesType].multiplier
       }
     >
       <Popup>
@@ -50,7 +54,7 @@ export const showDataOnMap = (data, casesType = "cases") =>
           <div
             className="info-flag"
             style={{ backgroundImage: `url(${country.countryInfo.flag})` }}
-          />
+          ></div>
           <div className="info-name">{country.country}</div>
           <div className="info-confirmed">
             Cases: {numeral(country.cases).format("0,0")}

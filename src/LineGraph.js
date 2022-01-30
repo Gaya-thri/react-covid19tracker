@@ -4,22 +4,22 @@ import numeral from "numeral";
 
 const options = {
   legend: {
-    display: false
+    display: false,
   },
   elements: {
     point: {
-      radius: 0
-    }
+      radius: 0,
+    },
   },
   maintainAspectRatio: false,
   tooltips: {
     mode: "index",
     intersect: false,
     callbacks: {
-      label: function(tooltipItem, data) {
+      label: function (tooltipItem, data) {
         return numeral(tooltipItem.value).format("+0,0");
-      }
-    }
+      },
+    },
   },
   scales: {
     xAxes: [
@@ -27,24 +27,24 @@ const options = {
         type: "time",
         time: {
           format: "MM/DD/YY",
-          tooltipFormat: "ll"
-        }
-      }
+          tooltipFormat: "ll",
+        },
+      },
     ],
     yAxes: [
       {
         gridLines: {
-          display: false
+          display: false,
         },
         ticks: {
           // Include a dollar sign in the ticks
-          callback: function(value, index, values) {
+          callback: function (value, index, values) {
             return numeral(value).format("0a");
-          }
-        }
-      }
-    ]
-  }
+          },
+        },
+      },
+    ],
+  },
 };
 
 const buildChartData = (data, casesType) => {
@@ -54,7 +54,7 @@ const buildChartData = (data, casesType) => {
     if (lastDataPoint) {
       let newDataPoint = {
         x: date,
-        y: data[casesType][date] - lastDataPoint
+        y: data[casesType][date] - lastDataPoint,
       };
       chartData.push(newDataPoint);
     }
@@ -69,14 +69,14 @@ function LineGraph({ casesType }) {
   useEffect(() => {
     const fetchData = async () => {
       await fetch("https://disease.sh/v3/covid-19/historical/all?lastdays=120")
-        .then(response => {
+        .then((response) => {
           return response.json();
         })
-        .then(data => {
-          //console.log(data);
+        .then((data) => {
           let chartData = buildChartData(data, casesType);
           setData(chartData);
-          //console.log(chartData);
+          console.log(chartData);
+          // buildChart(chartData);
         });
     };
 
@@ -92,9 +92,9 @@ function LineGraph({ casesType }) {
               {
                 backgroundColor: "rgba(204, 16, 52, 0.5)",
                 borderColor: "#CC1034",
-                data: data
-              }
-            ]
+                data: data,
+              },
+            ],
           }}
           options={options}
         />

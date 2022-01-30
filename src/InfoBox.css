@@ -1,10 +1,9 @@
 .infoBox {
   flex: 1;
-  cursor: pointer;
 }
 
 .infoBox:not(:last-child) {
-  margin-right: 15px;
+  margin-right: 10px;
 }
 
 .infoBox--selected {
